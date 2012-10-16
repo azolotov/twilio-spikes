@@ -18,9 +18,19 @@ module TwilioApp
     end
   end
 
+  class Api < TwilioBase
+    post '/hello.xml' do
+      content_type 'text/xml'
+      response = Twilio::TwiML::Response.new do |r|
+        r.Say 'Hello Anton Man!', :voice => 'man'
+      end
+      erb response.text
+    end
+  end
+
   class Call < TwilioBase
-    set :views, File.join(File.dirname(__FILE__),'views','call')
-    set :session_secret, "something"
+    set :views, File.join(File.dirname(__FILE__),'views','calls')
+    set :session_secret, "something-call"
 
     get '/' do
       erb :index
@@ -39,20 +49,12 @@ module TwilioApp
         @call = @account.calls.create({
           :from => '+48128810874',
           :to => params[:number],
-          :url => 'http://3w6m.localtunnel.com/call/hello.xml'
+          :url => 'apis/hello.xml'
         })
 
         flash[:notice] = "Status: #{@call.status}"
       end
-      redirect '/call'
-    end
-
-    post '/hello.xml' do
-      content_type 'text/xml'
-      response = Twilio::TwiML::Response.new do |r|
-        r.Say 'Hello Anton Man!', :voice => 'man'
-      end
-      erb response.text
+      redirect '/calls'
     end
   end
 end
