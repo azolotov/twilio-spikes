@@ -1,0 +1,24 @@
+Call to somebody
+<br />
+===============
+<br />
+<div id=flash style="width:280px;">
+  <% if flash[:error] %>
+    <div class=flash style="background-color: #FCC;border: solid 1px #C66;">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+  <% if flash[:notice] %>
+    <div class=flash style="background-color: #CFC;border: solid 1px #6C6;">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+</div>
+<br />
+<form action='/call/user' method='post'>
+  <input id='number' name='number' />
+  <input type='submit' value='Call' />
+</form>
+---------------
+<br />
+<a href="/">Back</a>
